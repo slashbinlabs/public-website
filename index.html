@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>/bin labs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="favicon.png" />
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background: #000814;
+        color: #fff;
+        font-family: "Segoe UI", Roboto, sans-serif;
+        text-align: center;
+        position: relative;
+    }
+
+/* ============================================
+   PURPLE/BLUE GALAXY NEBULA FOG (cinematic)
+   ============================================ */
+#nebula {
+    position: absolute;
+    inset: 0;
+    z-index: 0; /* behind stars */
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at 50% 60%,
+            rgba(120, 80, 255, 0.30) 0%,
+            rgba(90, 40, 200, 0.25) 25%,
+            rgba(40, 20, 130, 0.15) 45%,
+            rgba(0, 0, 50, 0.07) 70%,
+            rgba(0, 0, 0, 0) 90%
+        ),
+        radial-gradient(
+            circle at 30% 80%,
+            rgba(30, 120, 255, 0.22) 0%,
+            rgba(15, 80, 200, 0.16) 30%,
+            rgba(5, 40, 120, 0.08) 60%,
+            rgba(0, 0, 0, 0) 90%
+        );
+
+    filter: blur(80px);
+    animation: nebulaFloat 55s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaFloat {
+    0%   { transform: translate(0%, 0%) scale(1); }
+    50%  { transform: translate(3%, -4%) scale(1.05); }
+    100% { transform: translate(-2%, 3%) scale(1); }
+}
+
+    /* ================================
+       PARALLAX STAR LAYERS
+       ================================ */
+    .stars-layer {
+        position: absolute;
+        top: -150%;
+        left: 0;
+        width: 100%;
+        height: 250%;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Speeds (slowest at the back) */
+    #layer3 { animation: verticalUp3 60s linear infinite; } /* far away */
+    #layer2 { animation: verticalUp2 45s linear infinite; } /* middle */
+    #layer1 { animation: verticalUp1 30s linear infinite; } /* closest */
+
+    @keyframes verticalUp1 {
+        from { transform: translateY(60%); }
+        to   { transform: translateY(0); }
+    }
+    @keyframes verticalUp2 {
+        from { transform: translateY(60%); }
+        to   { transform: translateY(0); }
+    }
+    @keyframes verticalUp3 {
+        from { transform: translateY(60%); }
+        to   { transform: translateY(0); }
+    }
+
+    /* Seamless infinite scroll effect */
+    .stars-layer::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 250%;
+        background: inherit;
+        animation: inherit;
+    }
+
+    .star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.85;
+        box-shadow: 0 0 8px rgba(255,255,255,0.6);
+    }
+
+    /* ================================
+       LOGO
+       ================================ */
+.logo-img {
+    width: 260px;
+    max-width: 80%;
+    z-index: 10;
+    margin-bottom: 32px;
+
+    /* New teal/blue atmospheric glow */
+    filter: drop-shadow(0 0 35px rgba(0, 180, 255, 0.65))
+            drop-shadow(0 0 60px rgba(80, 120, 255, 0.45));
+
+    animation: glowPulse 4s ease-in-out infinite, fadeIn 2s ease forwards;
+}
+
+@keyframes glowPulse {
+    0% {
+        filter: drop-shadow(0 0 25px rgba(0,180,255,0.35))
+                drop-shadow(0 0 50px rgba(80,120,255,0.25));
+    }
+    50% {
+        filter: drop-shadow(0 0 45px rgba(0,180,255,0.8))
+                drop-shadow(0 0 80px rgba(100,160,255,0.55));
+    }
+    100% {
+        filter: drop-shadow(0 0 25px rgba(0,180,255,0.35))
+                drop-shadow(0 0 50px rgba(80,120,255,0.25));
+    }
+} 
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+
+    .tagline {
+        font-size: 1.2rem;
+        color: #d1faff;
+        opacity: 0;
+        animation: fadeIn 3s ease forwards;
+        z-index: 10;
+        margin-bottom: 15px;
+    }
+
+    /* ================================
+       GITHUB LINK
+       ================================ */
+    .github-container {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        animation: fadeIn 4s ease forwards;
+        z-index: 10;
+        color: #9be7ff;
+    }
+
+    .github-icon {
+        width: 22px;
+        height: 22px;
+        fill: currentColor;
+    }
+
+    .github-link {
+        color: inherit;
+        text-decoration: none;
+        font-size: 0.95rem;
+    }
+
+    .github-link:hover {
+        color: #00ffcc;
+        text-shadow: 0 0 12px rgba(0,255,200,0.7);
+    }
+</style>
+</head>
+
+<body>
+
+   <!-- NEBULA FOG -->
+    <div id="nebula"></div>
+
+    <!-- PARALLAX STAR LAYERS -->
+    <div id="layer3" class="stars-layer"></div> <!-- far -->
+    <div id="layer2" class="stars-layer"></div> <!-- mid -->
+    <div id="layer1" class="stars-layer"></div> <!-- near -->
+
+    <!-- LOGO -->
+    <img src="logo.png" class="logo-img" alt="/bin labs">
+
+    <!-- TAGLINE -->
+    <div class="tagline">Building software one binary at a time</div>
+
+    <!-- GITHUB -->
+    <div class="github-container">
+        <svg class="github-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52
+                 -.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64
+                 -.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18
+                 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56
+                 .82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19
+                 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <a class="github-link" href="https://github.com/slashbinlabs" target="_blank">
+            github.com/slashbinlabs
+        </a>
+    </div> 
+
+<!-- STAR GENERATION -->
+<script>
+function addStars(layerId, count, sizeMin, sizeMax, opacity) {
+    const layer = document.getElementById(layerId);
+    for (let i = 0; i < count; i++) {
+        const s = document.createElement("div");
+        s.className = "star";
+
+        const size = Math.random() * (sizeMax - sizeMin) + sizeMin;
+        s.style.width = size + "px";
+        s.style.height = size + "px";
+
+        s.style.opacity = opacity;
+
+        s.style.top = Math.random() * 250 + "%";
+        s.style.left = Math.random() * 100 + "%";
+
+        layer.appendChild(s);
+    }
+}
+
+/* far stars (small, faint, slow) */
+addStars("layer3", 40, 1, 2, 0.4);
+
+/* medium stars */
+addStars("layer2", 30, 2, 3, 0.7);
+
+/* near stars (brightest, larger, fastest) */
+addStars("layer1", 20, 3, 5, 0.9);
+</script>
+
+</body>
+</html>
